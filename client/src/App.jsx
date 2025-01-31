@@ -1,15 +1,13 @@
 import './App.css'
-import Login from './Components/Login';
-import Register from './Components/Register';
+import RouteSurf from './Routes/Route'
+
 
 function App() {
 
 
   return (
     <>
-    
-      <Login/>
-      {/* <Register/> */}
+    <RouteSurf/>
        
     </>
   )

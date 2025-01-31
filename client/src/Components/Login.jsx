@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useToast } from '@chakra-ui/react';
 
+
 export default function Login() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
@@ -45,7 +46,7 @@ export default function Login() {
 
     try {
       axios
-        .post(`${process.env.REACT_APP_EXPRESS}/auth/login`, {
+        .post(`http://localhost:3000/auth/login`, {
           email: email,
           password: pass,
         })

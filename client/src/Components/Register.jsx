@@ -72,7 +72,7 @@ export default function Register() {
 
     try {
       axios
-        .post(`${process.env.REACT_APP_EXPRESS}/auth/register`, {
+        .post(`http://localhost:3000/auth/register`, {
           firstName: fname,
           lastName: lname,
           email: email,
@@ -100,8 +100,7 @@ export default function Register() {
 
           
           if (err && err.response && err.response.status === 500) {
-    // Server error (HTTP status 500)
-    // alert("Something went wrong on the server 500");
+
       setError(err.response.data)
              toast({
               title: "Email already exists",
