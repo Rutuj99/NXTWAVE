@@ -43,7 +43,7 @@ export async function LoginControll(data) {
   const result = await bcrypt.compare(data.password, value.password);
 
   if (result) {
-    return { message: "Login Successfull", token: token };
+    return { message: "Login Successfull"};
   } else {
     throw new Error("Invalid password.");
   }

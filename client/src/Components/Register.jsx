@@ -11,8 +11,18 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from '@chakra-ui/react'
 import { EmailIcon } from "@chakra-ui/icons";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaBriefcase } from "react-icons/fa";
 import { Spinner } from '@chakra-ui/react'
+import { MdDateRange } from "react-icons/md";
+import { FaFile } from "react-icons/fa";
+
+
+import { createClient } from "@supabase/supabase-js";
+
+
+
+
+const supabase = createClient(env.supabaseUrl, env.anon_key);
 
 export default function Register() {
   const [show, setShow] = React.useState(false);
@@ -24,16 +34,52 @@ export default function Register() {
   let [fname, setfname] = useState("");
   let [lname, setlname] = useState("");
   let [email, setEmail] = useState("");
-  let [location, setLocation] = useState("");
+  let [company, setCompany] = useState("");
+  let [dob, setDob] = useState("");
+  let [profileImage, setImage] = useState("");
   let [pass, setPass] = useState("");
+
+  
 
   let [Efname, Esetfname] = useState(false);
   let [Elname, Esetlname] = useState(false);
   let [Eemail, EsetEmail] = useState(false);
-  let [Elocation, EsetLocation] = useState(false);
+  let [ ECompany, EsetCompany] = useState(false);
   let [Epass, EsetPass] = useState(false);
   let [error, setError] = useState(false);
   let [spin,setSpin]=useState(false);
+  let [fdob, fsetDob] = useState(false);
+  let [fprofileImage, fsetImage] = useState(false);
+
+
+
+  // SUPABASE INTEGRATION 
+
+
+  const handleImageUpload = (e) => {
+  
+    if (e.target.files && e.target.files[0]) {
+      // console.log("first",e.target.files )
+      // console.log(e.target.files[0] )
+      // setSelectedFile(URL.createObjectURL(e.target.files[0]));
+      // console.log(URL.createObjectURL(e.target.files[0]) )
+      handleFileUpload(e.target.files[0]);
+    }
+  };
+
+  const handleFileUpload = async (file) => {
+    let fileName = `${Date.now()}-${file.name}`;
+
+    const { data, error } = await supabase.storage
+      .from("Filex")
+      .upload(fileName, file);
+
+    const urlInfo = supabase.storage.from("Filex").getPublicUrl(data.path);
+
+    console.log("uploaded data", urlInfo.data.publicUrl);
+    setImage(urlInfo.data.publicUrl);
+  };
+
 
   function handleRegister(e) {
     e.preventDefault();
@@ -41,8 +87,10 @@ export default function Register() {
     Esetfname(false);
     Esetlname(false);
     EsetEmail(false);
-    EsetLocation(false);
+    EsetCompany(false);
     EsetPass(false);
+    fsetImage(false);
+    fsetDob(false);
 
     if (fname.length == 0) {
       Esetfname(true);
@@ -59,10 +107,23 @@ export default function Register() {
       return;
     }
 
-    if (location.length == 0) {
-      EsetLocation(true);
+    if (company.length == 0) {
+      EsetCompany(true);
       return;
     }
+
+    if(!dob.length){
+      fsetDob(true);
+      return;
+    }
+
+    console.log(profileImage,"wergngbfvc")
+
+    if (profileImage.length == 0) {
+      fsetImage(true);
+      return;
+    }
+
 
     if (pass.length <= 8) {
       EsetPass(true);
@@ -70,13 +131,18 @@ export default function Register() {
     }
     // using backend-points to store data in mongoDB
 
+
+
+
     try {
       axios
         .post(`http://localhost:3000/auth/register`, {
           firstName: fname,
           lastName: lname,
           email: email,
-          location: location,
+          company: company,
+          dob:dob,
+          profileImage:profileImage,
           password: pass,
         })
         .then((res) => {
@@ -201,25 +267,74 @@ export default function Register() {
               )}
             </div>
 
+            
+
             <div className="Register-Input1">
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
-                  <FaMapMarkerAlt style={{ color: "grey" }} />
+                  <FaBriefcase style={{ color: "grey" }} />
                 </InputLeftElement>
                 <Input
                   type="text"
-                  placeholder="Enter Location"
+                  placeholder="Enter company"
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setCompany(e.target.value);
                   }}
                 />
               </InputGroup>
-              {Elocation && (
+              { ECompany && (
                 <Box color="red" fontSize="small">
-                  Location is required.
+                  Company is required.
                 </Box>
               )}
             </div>
+
+
+               
+
+
+            <div className="Register-Input1">
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <MdDateRange style={{ color: "grey" }} />
+                </InputLeftElement>
+                <Input
+                  type="date"
+                  placeholder="Enter company"
+                  style={{alignContent:"center", color: "grey" }}
+                  onChange={(e) => {
+                    setDob(e.target.value);
+                  }}
+                />
+              </InputGroup>
+
+              { fdob && (
+                <Box color="red" fontSize="small">
+                  DOB is required.
+                </Box>
+              )}
+            </div>
+
+            <div className="Register-Input1">
+              <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                  <FaFile style={{ color: "grey" }} />
+                </InputLeftElement>
+                <Input
+                  type="file"
+                  style={{alignContent:"center", color: "grey" }}
+                
+                  onChange={handleImageUpload}
+                />
+              </InputGroup>
+              { fprofileImage && (
+                <Box color="red" fontSize="small">
+                  Image is required.
+                </Box>
+              )}
+            </div>
+
+
 
             <div className="Register-Input1">
               <InputGroup size="md">
@@ -270,3 +385,20 @@ export default function Register() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+// firstName: data.firstName,
+// lastName: data.lastName,
+// email: data.email,
+// company: data.company,
+// dob:data.dob,
+// profileImage:data.profileImage,
+// password: hash
