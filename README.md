@@ -80,3 +80,4 @@ The server is a Node.js application that handles user authentication, data stora
 - **Chakra UI**: For offering a simple and accessible component library.
 - **Supabase**: For providing an open-source alternative to Firebase.
 - **MongoDB**: For offering a flexible and scalable NoSQL database.
+-  **Render and Netlify** :  To deploy backend and frontend
