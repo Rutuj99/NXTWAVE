@@ -43,10 +43,15 @@ The server is a Node.js application that handles user authentication, data stora
 
 ## Features
 
-- **User Registration**: Users can create a new account by providing necessary details.
-- **User Login**: Registered users can log in using their credentials.
-- **Account Information**: Post-login, users can view their account information.
-- **Responsive Design**: The application is designed to be responsive and accessible on various devices.
+User Registration: Users can create a new account by providing the required details.
+
+User Login: Registered users can log in using their credentials.
+
+OTP Verification: After logging in, users receive a 6-digit OTP, which must be entered to access their profile.
+
+Profile Management: Users can view their account details after OTP verification.
+
+Account Deletion: Users can delete their profile after authentication using their email, password, and OTP.
 
 
 ## Acknowledgments
