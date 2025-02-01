@@ -33,7 +33,8 @@ The server is a Node.js application that handles user authentication, data stora
 - **Nodemon**: A utility that automatically restarts the server upon file changes.
 
 ## Getting Started
-- deployed Link "https://remarkable-lokum-d441be.netlify.app/"
+- deployed Link
+ [ https://remarkable-lokum-d441be.netlify.app/]
 
 ### Prerequisites
 
