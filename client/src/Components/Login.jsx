@@ -28,75 +28,94 @@ export default function Login() {
   let [Epass, EsetPass] = useState(false);
   let  [spin,setSpin]=useState(false);
 
-  function handleRegister(e) {
-    e.preventDefault();
+ function handleRegister(e) {
+  e.preventDefault();
 
-    EsetEmail(false);
-    EsetPass(false);
+  // Reset error states
+  EsetEmail(false);
+  EsetPass(false);
 
-    if (email.length == 0) {
-      EsetEmail(true);
-      return;
-    }
+  // Validate Email
+  if (email.length === 0) {
+    EsetEmail(true);
+    return;
+  }
 
-    if (pass.length <= 8) {
-      EsetPass(true);
-      return;
-    }
+  // Validate Password
+  if (pass.length <= 8) {
+    EsetPass(true);
+    return;
+  }
 
-    try {
-      axios
-        .post(`http://localhost:3000/auth/login`, {
-          email: email,
-          password: pass,
-        })
-        .then((res) => {
-          toast({
-            title: 'Login Successfull.',
-            description: "",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          })
+  setSpin(true);  // Show spinner while the request is in progress
 
-              
-             setSpin(true);
-      
-            setTimeout(()=>{
-              Navigate("/home")
-            },2000)
+  try {
+    // Make API call to backend to authenticate and trigger OTP generation
+    axios.post(`http://localhost:3000/auth/login`, {
+      email: email,
+      password: pass,
+    })
+    .then((res) => {
+      localStorage.setItem("profile2", JSON.stringify(res.data.data));
+       
+      axios.post(`http://localhost:3000/generate-otp`, { email: email })
+      .then((otpResponse) => {
+       
+        localStorage.setItem("profile", JSON.stringify({ email: email }));
 
-        })
-        .catch((err) => {
-         
-          toast({
-            title: `${err.response.data}`,
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-          })
+        toast({
+          title: "OTP Sent!",
+          description: "Check your email for the OTP.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
         });
-    } catch (err) {
+
+        // Navigate to OTP page
+        Navigate("/otp");
+      })
+      .catch((err) => {
+        toast({
+          title: `${err.response?.data?.message || 'Error generating OTP'}`,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      });
+    })
+    .catch((err) => {
       toast({
-        title: `${err.response.data}`,
-        status: 'error',
+        title: `${err.response?.data?.message || 'Login failed'}`,
+        status: "error",
         duration: 2000,
         isClosable: true,
-      })
-    }
+      });
+    });
+  } catch (err) {
+    toast({
+      title: "An error occurred",
+      status: "error",
+      duration: 2000,
+      isClosable: true,
+    });
+  } finally {
+    setSpin(false);  // Hide the spinner after the request is complete
   }
+}
+
+  
 
   return (
     
     <div className="Register-Main">
       <div className="Register-One">
-        <h1>SocioMeet</h1>
+        <h1>Login</h1>
       </div>
 
       <div className="Register-Box">
         <div className="Register-Two">
           <form onSubmit={handleRegister}>
-            <h1>Welcome to Sociomeet</h1>
+            <h1>Welcome</h1>
 
             <div className="Register-Input1">
               <InputGroup>

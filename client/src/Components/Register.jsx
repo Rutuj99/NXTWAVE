@@ -22,7 +22,7 @@ import { createClient } from "@supabase/supabase-js";
 
 
 
-const supabase = createClient(env.supabaseUrl, env.anon_key);
+const supabase = createClient(supabaseUrl, anon_key);
 
 export default function Register() {
   const [show, setShow] = React.useState(false);
@@ -200,13 +200,13 @@ export default function Register() {
   return (
     <div className="Register-Main">
       <div className="Register-One">
-        <h1>SocioMeet</h1>
+        <h1>Register</h1>
       </div>
 
       <div className="Register-Box">
         <div className="Register-Two">
           <form onSubmit={handleRegister}>
-            <h1>Welcome to Sociomeet</h1>
+            <h1>Welcome</h1>
 
             <div className="Register-Input1">
               <div className="Register-Name">

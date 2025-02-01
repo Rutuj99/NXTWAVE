@@ -41,9 +41,12 @@ export async function LoginControll(data) {
   }
 
   const result = await bcrypt.compare(data.password, value.password);
+  
+  const userObject = value.toObject();
+  delete userObject.password;
 
   if (result) {
-    return { message: "Login Successfull"};
+    return { message: "Login Successfull",data:userObject};
   } else {
     throw new Error("Invalid password.");
   }
