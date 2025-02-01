@@ -40,6 +40,10 @@ The server is a Node.js application that handles user authentication, data stora
 - npm (v7 or higher)
 - MongoDB (running locally or remotely)
 
+### Images 
+![image](https://github.com/user-attachments/assets/d304c80b-a0a3-4876-970a-6304201ccf53)
+
+
 
 ## Features
 
