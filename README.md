@@ -32,10 +32,6 @@ The server is a Node.js application that handles user authentication, data stora
 - **Nodemailer**: A module for sending emails from Node.js.
 - **Nodemon**: A utility that automatically restarts the server upon file changes.
 
-#### Scripts
-
-- `dev`: Starts the development server using Nodemon.
-
 ## Getting Started
 
 ### Prerequisites
