@@ -19,12 +19,6 @@ The client is a React application that uses Chakra UI for styling and Supabase t
 - **React Router DOM**: A library for routing in React applications.
 
 
-#### Scripts
-
-- `dev`: Starts the development server using Vite.
-- `build`: Builds the project for production.
-- `lint`: Runs ESLint to check for code quality issues.
-- `preview`: Previews the production build locally.
 
 ### Server
 
